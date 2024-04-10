@@ -32,6 +32,7 @@ export class UsuarioController {
     }
 
     @Put(':id')
+    @ApiOperation({ summary: 'Actualizar un usuario por ID' })
     async actualizarUsuario(@Param('id') id: string, @Body() data: Usuario) {
         try {
             return await this.usuarioService.actualizarUsuario(Number(id), data);
@@ -41,6 +42,7 @@ export class UsuarioController {
     }
 
     @Delete(':id')
+    @ApiOperation({ summary: 'Eliminar un usuario por ID' })
     async eliminarUsuario(@Param('id') id: string) {
         try {
             return await this.usuarioService.eliminarUsuario(Number(id));
@@ -48,4 +50,5 @@ export class UsuarioController {
             throw new NotFoundException('Usuario no encontrado');
         }
     }
+
 }
