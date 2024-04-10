@@ -1,23 +1,30 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Put } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { Usuario } from "@prisma/client";
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('usuario')
+@ApiTags('usuario')
 export class UsuarioController {
 
     constructor(private readonly usuarioService: UsuarioService) { }
 
     @Get()
+    @ApiOperation({ summary: 'Obtener todos los usuarios' })
+    @ApiResponse({ status: 200, description: 'OK' })
+    @ApiResponse({status:403, description:'Forbidden'})
     async getTodosLosUsuarios() {
         return this.usuarioService.getTodosLosUsuarios();
     }
 
     @Post()
+    @ApiOperation({ summary: 'Crear un usuario' })
     async crearUsuario(@Body() data: Usuario) {
         return this.usuarioService.crearUsuario(data);
     }
 
     @Get(':id')
+    @ApiOperation({ summary: 'Obtener un usuario por ID' })
     async getUsuarioPorId(@Param('id') id: string) {
         const usuarioEncontrado= await this.usuarioService.getUsuarioPorId(Number(id));
         if(!usuarioEncontrado) throw new NotFoundException('Usuario no encontrado');
